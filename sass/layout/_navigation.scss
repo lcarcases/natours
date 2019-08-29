@@ -1,0 +1,206 @@
+.navigation {
+
+    // Hide checkbox
+    &__checkbox {
+      display: none;
+    }
+
+
+    // Menu label with three lines icon that it is over navigation background
+    &__button {
+       background-color: $color-white;
+       height: 7rem;
+       width: 7rem;
+       position: fixed;
+       top: 6rem;
+       right: 6rem;
+       border-radius: 50%;
+       z-index: 2000;
+       box-shadow: 0 1rem 3rem rgba($color-black, .1);
+       // Center icon Menu 
+       text-align: center;
+       cursor: pointer;
+
+       /* Repositioning icon menu button */
+       @include respond(tab-port) {
+           top: 4.5rem;
+           right: 4.5rem;
+       }
+
+       @include respond(phone) {
+           top: 3.5rem;
+           right: 3.5rem;
+       }
+   }
+
+
+    // Set initial background menu state
+    &__background {
+       height: 6rem;
+       width:  6rem;
+       // Made it circular
+       border-radius: 50%;
+       // Move with the page and set to the right side
+       position: fixed;
+       top: 6.5rem;
+       right: 6.5rem;
+       // Green radial gradient because it is a circle
+       background-image: radial-gradient($color-primary,$color-primary-dark);
+       z-index: 1000;
+       transition: transform .8s cubic-bezier(.86, 0, .07, 1);
+
+       @include respond(tab-port) {
+            top: 5rem;
+            right: 5rem;
+       }
+
+       @include respond(phone) {
+         top: 4rem;
+         right: 4rem;
+       }       
+
+    }
+    
+    // Container of list navigation
+    &__nav {
+       height: 100vh;
+       position: fixed;
+       // Positioned to the right
+       top: 0;
+       right: 0;
+       z-index: 1500;
+       /* Set opacity to 0 to dont see the menu, and width to 0 because, otherwise
+       instead we dont see it, it can be selected yet and would be recognized when
+       pass over each item menu*/
+       opacity: 0;
+       width: 0;
+       transition: all .8s cubic-bezier(.68, -.55, .265, 1.55);
+    }
+    
+    // Styling ul element of navigation
+    &__list {
+        position: absolute;
+        left:50%;
+        transform: translate(-50%, 50%);
+        // Remove bulletpoints
+        list-style: none;
+        text-align: center;
+        // This remove an slighly jumping on animation of ul element
+        width: 100%;
+    }
+
+    // Styling li element
+    &__item {
+       margin: 1rem;
+    }
+
+    // Styling link items
+    &__link {
+         &:link,
+         &:visited {
+            /* Without this display setting will dont get padding neither transform
+            property to move slightly to the right on over effect*/
+            display: inline-block;
+            font-size: 3rem;
+            font-weight: 300;
+            padding: 1rem 2rem;
+            color: $color-white;
+            text-decoration: none;
+            text-transform:uppercase;
+            /* Paint a gradient with a diagonal of 120 degree and start at 0% of width
+            with transparent color and continue with this until 50%, then the other
+            50% of width element paint it in white color */ 
+            background-image: linear-gradient(120deg, transparent 0%, transparent 50%, $color-white 50%);
+            /* In this case we use this property to make the on over effect on item menu, if increase this value over 100%, the background shift to the right side*/
+            background-size: 230%;
+            transition: all .4s;
+            
+            // Add space btween numbers and text menu
+            span {
+                margin-right: 1.5rem;
+                display: inline-block;
+            }
+         }
+
+         &:hover,
+         &:active {
+            // Move the background to the left
+            background-position: 100%;
+            color: $color-primary;
+            // This make option menu move slightly to the right 
+            transform: translateX(1rem);
+         }
+    }
+
+    /* When checkbox checked scale sibbling navigation background to 80 */
+    &__checkbox:checked ~ &__background {
+        transform: scale(80);
+    }
+
+    /* When checkbox checked set sibbling navigation to normal value property to
+    can be see it the menu  */
+    &__checkbox:checked ~ &__nav {
+        opacity: 1;
+        width: 100%;
+    }
+
+    &__icon {
+       position: relative;
+       // Positioning three lines
+       margin-top: 3.5rem;
+
+       &,
+       &::before,
+       &::after {
+          /*Draw three lines that make up the icon*/
+          width: 3rem;
+          height: 2px;
+          background-color: $color-grey-dark-3;
+          display: inline-block;
+       }
+
+
+       &::before,
+       &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          transition: all .4s;
+       }
+       
+       /* Position top and bottom line of icon nav in relation 
+           center one */
+       &::before { top: -.8rem; }
+       &::after  { top:  .8rem; }
+    }
+
+    // Animation space of icon lines on over icon
+    &__button:hover &__icon::before {
+      top: -1rem;
+    }
+        
+    // Animation space of icon lines on over icon
+    &__button:hover &__icon::after {
+      top: 1rem;
+    }
+
+    /* When click on checkbox icon hide the middle line */
+    &__checkbox:checked + &__button &__icon {
+            background-color: transparent
+    }
+  
+    /* When click on checkbox icon rotate and move position
+         of top line to create the "X" close button   */
+    &__checkbox:checked + &__button &__icon::before {
+         top: 0;
+         transform: rotate(135deg);
+    }
+  
+   /* When click on checkbox icon rotate and move position
+      of bottom line to create the "X" close button   */
+   &__checkbox:checked + &__button &__icon::after {
+       top: 0;
+       transform: rotate(-135deg);
+   }
+  
+}

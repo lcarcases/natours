@@ -1,0 +1,100 @@
+.story {
+  width: 75%;
+  margin: 0 auto;
+  box-shadow: 0 3rem 6rem rgba($color-black, .1);
+  // Set background of story semi-transparent
+  background-color: rgba($color-white, .6);
+  border-radius: 3px;
+  padding: 6rem;
+  padding-left: 9rem;
+  font-size: $default-font-size;
+  transform: skewX(-12deg);
+
+  @include respond(tab-port) {
+      width: 100%;
+      padding: 4rem;
+      padding-left: 7rem;
+  }
+
+  @include respond(phone) {
+    transform: skewX(0); 
+  }
+  
+  /*Style the image in the story section*/
+  &__shape {
+      /*All floated elements must have dimentions */
+      width: 15rem;
+      height: 15rem;
+      /*Float image to the left of adyacent content*/
+      float: left;
+      /* Put slighty away the image from text and I use transform instead of left o margin because I floated the image. Skew is for transform in the opposite site of shape container*/
+      transform: translateX(-3rem) skewX(12deg);
+      position: relative;
+      /* This Overflow is for the below @support section*/
+      overflow: hidden;
+      border-radius: 50%;
+
+      @supports(clip-path: circle(50% at 50% 50%)) {
+          /* Convert image in a circle */
+          -webkit-clip-path: circle(50% at 50% 50%);
+          clip-path: circle(50% at 50% 50%);
+          /*For compatibility navigators like firefox and safari*/
+          -webkit-shape-outside: circle(50% at 50% 50%);
+          /*Make the text wrap the image in form of arc instead of rectangular way*/
+          shape-outside: circle(50% at 50% 50%);
+          /* Remove effect of above border-radius, because it wont be necesary in this case that support shape-outside property */
+          border-radius: none;
+      }
+
+      @include respond(phone) {
+          transform: translateX(-3rem) skewX(0);
+      }
+  }
+
+  &__img {
+      /* Because imgage is has more width than height I set height to 100% 
+         to fit all area of its container*/
+      height: 100%;
+      // Initial position and scale of image
+      transform: translateX(-4rem) scale(1.4);
+      transition: all .5s;
+  }
+
+  &__text {
+      /*Is for transform text in the opposite site of shape container*/
+      transform: skewX(12deg);
+
+      @include respond(phone) {
+        transform: skewX(0);
+      }
+  }
+
+  &__caption {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -20%);
+      color: $color-white;
+      text-transform: uppercase;
+      font-size: 1.7rem;
+      text-align: center;
+      opacity: 0;
+      transition: all .5s;
+      /* This remove the litte shake at the end of animation*/
+      backface-visibility: hidden;
+  }
+
+  &:hover &__caption {
+      opacity: 1;
+      // Move name person up
+      transform: translate(-50%, -50%);
+  }
+
+  &:hover &__img {
+    // Zoom out image person   
+    transform: translateX(-4rem) scale(1);
+    filter: blur(3px) brightness(80%);
+  }
+
+  
+}

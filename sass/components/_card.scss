@@ -1,0 +1,236 @@
+.card {
+     // This make card rotation more smooth and realistic
+     perspective: 150rem;
+     -moz-perspective: 150rem;
+     position: relative;
+     /*This is because when I set its childs to absolute position
+     the perspective is lost because of card class lost its height. Then
+     I set  height same as its*/
+     height: 52rem;
+
+     &__side {
+         //background-color: orangered;
+         color: #ffffff;
+         font-size: 2rem;
+
+         height: 52rem;
+         transition: all .8s ease;
+         position: absolute;
+         /*Set the same postion for front and back card*/
+         top:0;
+         left: 0;
+         width: 100%;
+         /*This property is very important because hide the content
+         of card once it is rotated, make we dont see the content 
+         rotated, instead, it hide it*/
+         -webkit-backface-visibility: hidden;
+         backface-visibility: hidden;
+         border-radius: 5px;
+         box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+         /* This for hide part of image that cover this element and i want
+         to hide it to see border radius effect of this element*/
+         overflow: hidden;
+
+         &--front {
+             background-color: $color-white;
+         }
+
+         &--back {
+             background-color: green;
+             /*Initially back card is rotated to 180 deg 
+             and on hover event, rotate to 0 deg */
+             transform: rotateY(180deg);
+
+             &-1 {
+                 background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark);
+             }
+
+             &-2 {
+                background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark);
+            }
+
+            &-3 {
+                background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark);
+            }
+         }
+     }
+
+     &:hover &__side--front {
+         transform: rotateY(180deg)
+     }
+
+     &:hover &__side--back {
+         transform: rotateY(0);
+     }
+
+     &__picture {
+         /* Make all background image cover all background */
+         background-size: cover;
+
+         height: 23rem;
+         /* This give opacity effect to the linear gradient of linear gradient in
+            background image, otherwise gradient put over image and hide it */
+         background-blend-mode: screen;
+
+         /* -webkit- prefix is for compatibility with other browser, since
+         clip-path is a pretty new css property*/
+         -webkit-clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+         clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+
+         &--1 {
+             background-image: linear-gradient(to right bottom, $color-secondary-light, $color-secondary-dark), url(../img/nat-5.jpg);
+         }         
+         
+         &--2 {
+            background-image: linear-gradient(to right bottom, $color-primary-light, $color-primary-dark), url(../img/nat-6.jpg);
+         }
+         
+         &--3 {
+            background-image: linear-gradient(to right bottom, $color-tertiary-light, $color-tertiary-dark), url(../img/nat-7.jpg);
+         }
+
+
+     }
+
+     &__heading {
+        font-size: 2.8rem;
+        font-weight: 300;
+        text-transform: uppercase;
+        text-align: right;
+        color: $color-white;
+        position: absolute;
+        top: 12rem;
+        right: 2rem;
+        width: 75%;
+     }
+
+     &__heading-span {
+            padding: 1rem 1.5rem;
+            /* This make that each line of a text with multiple lines
+            be treated as individual element and for example if aplly
+            padding like our case, padding be applied to each line and
+            not only the bgining and end part of the text*/
+            -webkit-box-decoration-break: clone;
+            box-decoration-break: clone;
+
+            &--1 {
+                background-image: linear-gradient(to right bottom,
+                rgba($color-secondary-light, .85),
+                rgba($color-secondary-dark, .85));
+            }
+
+            &--2 {
+                background-image: linear-gradient(to right bottom,
+                rgba($color-primary-light, .85),
+                rgba($color-primary-dark, .85));
+            }
+
+            &--3 {
+                background-image: linear-gradient(to right bottom,
+                rgba($color-tertiary-light, .85),
+                rgba($color-tertiary-dark, .85));
+            }
+     }
+    &__details {
+           padding: 3rem;
+           ul {
+             list-style: none;
+             /* This is for list not fit all with of its parent element*/
+             width: 80%;
+             /*Center li elements, otherwise it will apears on the left side*/
+             margin: 0 auto;
+
+                li {
+                    text-align: center;
+                    font-size: 1.5rem;
+                    padding: 1rem;
+                    color: $color-grey-dark;
+                    /* Paint border to all li element except last one*/
+                    &:not(:last-child) {
+                        border-bottom: 1px solid $color-grey-light-1;
+                    }
+                }
+            }
+    }
+    
+    &__cta {
+        // Centering elements in the back of the card 
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        /* Because elements are centered from its 0,0 coordinates, I
+           have to move back the elements 50% back relative to the
+           element itself */
+        transform: translate(-50%,-50%);
+        width: 90%;
+        /*Center link button*/
+        text-align: center;
+    }
+
+    &__price-box {
+      /*Center prices*/
+      text-align: center;
+      color: $color-white;
+      margin-bottom: 8rem;
+    }
+
+
+    &__price-only {
+        font-size: 1.4rem;
+        text-transform: uppercase;
+    }
+
+    &__price-value {
+        font-size: 6rem;
+        font-weight: 100;
+    }
+
+    //Only apply for screen devices that dont have hover events
+    @media only screen and (max-width: 56.25em),
+           only screen and (hover: none) {
+            height: auto;
+            border-radius: 3px;
+            background-color: $color-white;
+            box-shadow: 0 1.5rem 4rem rgba($color-black, .15);
+
+            &__side {
+                height: auto;
+                position: relative;
+                border-radius: 5px;
+                box-shadow: none;
+
+                &--back {
+                    transform: rotateY(0);
+                    clip-path: polygon(0 15%, 100% 0, 100% 100%, 0% 100%);
+                }
+            }
+
+            &:hover &__side--front {
+                transform: rotateY(0)
+            }
+
+            &__details {
+                padding: 1rem 3rem;
+            }
+            
+            &__cta {
+                // Centering elements in the back of the card 
+                position: relative;
+                top:  0;
+                left: 0;
+                transform: translate(0);
+                width: 100%;
+                padding: 7rem 4rem 4rem 4rem;
+            }
+
+            &__price-box {
+               margin-bottom: 3rem;
+            }
+
+            &__price-value {
+                font-size: 4rem;
+                font-weight: 300;
+            }
+
+    }
+}

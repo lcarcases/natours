@@ -1,0 +1,180 @@
+.form {
+
+    /* Add space between fields text except, last one*/
+    &__group:not(:last-child) {
+        margin-bottom: 2rem;
+    }
+
+    
+    &__group {
+        @include respond(tab-port) {
+            margin-left: 2rem !important;
+        }
+    }
+
+    &__group:last-child {
+        @include respond(tab-port) {
+            margin-top: 2rem !important;
+        }
+    }
+
+    & .btn {
+        @include respond(tab-port) {
+           margin-bottom: 2rem;
+           margin-left: 10rem;
+        }
+    }
+
+    & .heading-secondary {
+        margin-left: 7rem !important;
+        
+        @include respond(tab-port) {
+            margin-left: 5rem !important;
+        }
+
+        @include respond(phone) {
+            margin-left: 7rem !important;
+        }
+
+    }
+
+    /* Style input fileds*/
+    &__input {
+        font-size: 1.5rem;
+        font-family: inherit;
+        color: $color-black;
+        padding: 1.5rem 2rem;
+        border-radius: 2px;
+        background-color: rgba($color-white, .5);
+        /* Remove default border*/
+        border: none;
+        /* This to avoid slightly jump with on focus event, that has
+        border*/
+        border-bottom: 3px solid transparent;
+        width: 35%;
+        /* This move label down de field text*/
+        display: block;
+
+        @include respond(tab-port) {
+            width: 96%;
+        }
+
+        /*Set bahavior of focus text field*/
+        &:focus {
+            /* Remove the default border behavior of focus event */
+            outline:none;
+            box-shadow: 0 1rem 2rem rgba($color-black, .1);
+            border-bottom: 3px solid $color-primary;
+            
+            /* When input is focus and get invalid value*/
+            &:invalid {
+                border-bottom: 3px solid $color-secondary-dark;
+            } 
+        }
+
+        /* Color for placeholder in the input fields */
+        &::-webkit-input-placeholder {
+           color: $color-grey-dark-2;
+        }
+
+        transition: all .3s;
+
+    }
+
+    /*Styles for labels of input fields*/
+    &__label {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-left: 2rem;
+        margin-top: .7rem;
+        display: block;
+        transition: all .3s;
+    }
+
+    /* Make input labels show when user start writting on fields text. Automatically
+       when placeholder hide, animation start and show de label down. This selector
+       indicate the initial state of label element. + symbol indicate first sibbling*/
+    &__input:placeholder-shown + &__label {
+       opacity:0;
+       visibility: hidden; 
+       transform: translateY(-4rem);
+    }
+
+    /* Make radio button set one aside another one */
+    &__radio-group {
+        width: 18%;
+        display: inline-block;
+
+        @include respond(tab-port) {
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+    }
+
+    /* Hide original radio button input */
+    &__radio-input {
+        display: none;
+    }
+
+    /* Style for radio button label*/
+    &__radio-label {
+        font-size: $default-font-size;
+        /* Set an icon hand cursor pass over the label*/
+        cursor: pointer;
+        position: relative;
+        // Set space bettween label and circle of button 
+        padding-left: 4rem;
+    }
+
+    /* Set <span> style that will act like the circle of radio button */
+    &__radio-button {
+        // Set width and height
+        height: 3rem;
+        width: 3rem;
+        // Set the green border of circle
+        border: 5px solid $color-primary;
+        // Set circular shape to the span elment
+        border-radius: 50%;
+        /* Block  is for recognize width and height property
+        and inline for circle be showed aside the text and not down */
+        display: inline-block;
+        // This is for circle and text label be aligned
+        position: absolute;
+        left: 0;
+        top:  -.4rem;
+        
+        // Draw the inner circle of radio button
+        &::after {
+            content: "";
+            /* Recognize width and height */
+            display: block;
+            /* Dimentions of inner circle must be slightly slower than  
+            the outter circle */
+            height: 1.3rem;
+            width:  1.3rem;
+            // Make a circle
+            border-radius: 50%;
+            // Center inner circle on outter circle
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            // Set green color
+            background-color: $color-primary;
+            /* At the beggining inner circle must be hidden  and only
+            be showed once user click on the radio button */ 
+            opacity: 0;
+            transition: opacity .2s;
+
+        }
+    }
+
+    /* When radio button checked, select the after element
+    of the child of his(radio button) sibbling */
+    &__radio-input:checked ~ &__radio-label &__radio-button::after {
+        opacity: 1;
+    }
+
+    
+
+}

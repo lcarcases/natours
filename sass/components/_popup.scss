@@ -1,0 +1,195 @@
+.popup {
+    // Background style
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    top:0;
+    left: 0;
+    background-color: rgba($color-black, .8);
+    z-index: 3000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all .3s;
+    
+    /* @support ask to navigator if support a property, in this case,
+      backdrop-filter and in that case apply certain style. backdrop is
+      only supported on safari and in this in this case use a blur effect
+      to the background of popup. This property apply to the element that
+      it is behind selected element, in this case the selected element is popup and behind it has all page content */
+    @supports (-webkit-backdrop-filter: blur(10px)) or (backdrop-filter: blur(10px)) {
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+      background-color: rgba($color-black, .3);
+    }  
+
+    &__content {
+        // Centering popup content
+        @include absCenter;
+        
+        // Content dimention
+        width: 75%;
+        height: 43rem;
+        background-color: $color-white;
+        box-shadow: 0 2rem 4rem rgba($color-black, .2);
+        border-radius: 3px; 
+        /* This for popup left and right div have the same height */  
+        display: table; 
+        // This is for the images don't cover border radius popup_content
+        overflow: hidden;
+        // Initial state of content
+        opacity: 0;
+        /* In this case, because i already have a transform property
+        in the mixins absCenter and will be replaced by this one
+        i need to set again the translate property */
+        transform: translate(-50%,-50%) scale(0);
+        /* Whith the delay of .2s i get that background black appear
+        first than content */
+        transition: all .5s .2s; 
+
+    }
+
+    &__left {
+       width: 33.333333%;
+       /* This for popup left div have the same height as the right one */ 
+       display: table-cell;
+
+       @include respond(tab-port) {
+          width: 100%;
+          display: inline-block;
+       }
+    }
+
+    &__right {
+       width: 66.6666667%;
+       /* This for popup right div have the same height as the left one */
+       display: table-cell;
+       vertical-align: middle;
+       padding: 3rem 5rem;
+
+       @include respond(tab-port) {
+         width: 100%;
+         display: inline-block;
+       }
+
+       & .heading-secondary {
+          @include respond(tab-port) {
+            margin-left: 14rem !important;
+          } 
+
+          @include respond(phone) {
+            margin-left: -1rem !important;
+          } 
+       }
+
+       & .heading-tertiary {
+          @include respond(tab-port) {
+            margin-left: 9rem !important;
+          } 
+
+          @include respond(phone) {
+            margin-left: 3rem !important;
+            text-align: center;
+          }  
+       }
+
+       & .btn {
+
+          @include respond(tab-land) {
+            margin-left:15rem !important;
+          }
+
+          @include respond(tab-port) {
+            margin-left:23rem !important;
+          }
+
+          @include respond(phone) {
+            margin-left:7rem !important;
+          }
+       }
+    }
+
+    &__img {
+       display: block;
+       /* I put this to 99% because i put 100%, the image below
+       leave a small white space,and 99% width fix it*/
+       width: 99%;
+
+       @include respond(tab-port) {
+         width:50%;
+         float: left;
+         height: 25rem;
+       }
+
+       @include respond(phone) {
+          height: 20rem;
+       }
+
+    }
+
+    &__text {
+      font-size: 1.4rem;
+      margin-bottom: 4rem;
+
+      // Compatibility reazons firefox navigator
+      -moz-column-count: 2;
+      -moz-column-gap: 4rem;
+      -moz-column-rule: 1px solid $color-grey-light-2;
+
+      // Define column count, gap between them and a divisor line
+      column-count: 2;
+      column-gap: 4rem;
+      column-rule: 1px solid $color-grey-light-2;
+      
+      // Compatibility reazons firefox navigator
+      -moz-hyphens: auto;
+      // Compatibility reazons edge navigator
+      -ms-hyphens: auto;
+      // Compatibility reazons safari navigator
+      -webkit-hyphens: auto;
+      hyphens: auto;
+
+      @include respond(tab-port) {
+         font-size: 1.7rem;
+      }
+
+      @include respond(phone) {
+         font-size: 1.7rem;
+         margin-left: 3.2rem;
+      }
+    }
+
+   /* When popup became the target */
+   &:target {
+         opacity: 1;
+         visibility: visible;
+   }
+
+   /* When popup open*/
+   &:target &__content {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+   }
+  
+   // Styling close link button
+   &__close {
+      &:link,
+      &:visited {
+         color: $color-grey-dark;
+         position: absolute;
+         top: 2.5rem;
+         right: 3rem;
+         font-size: 3rem;
+         text-decoration: none;
+         display: inline-block;
+         transition: all .2s;
+         line-height: 1;
+      }
+
+      
+  
+      &:hover {
+         color: $color-primary;
+      }
+   }
+
+}

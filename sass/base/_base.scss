@@ -1,0 +1,56 @@
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  /*this make that this property be heritable for all element in
+  the page*/
+  box-sizing: inherit;
+}
+
+html {
+    /* 
+       Define what  1rem is. This is because rem unit is based on root(html) 
+       font size element. Then, in this case, 1 rem is equal to 10px. This is useful
+       for response design.
+       We put this attribute in % (this make html font size depend on browser font) in case of user change navigator font-size,
+       default navigator font size is 16px, that in percentage is
+       100%, if i want 10px like in this case, 10px/16px is 0.625 that
+       is 62.5%. Then 0.625*16px = 10px, if user increase font-size to 22
+       our html font size in pixel would be 0.625*22px = 13.73px
+    */ 
+    font-size: 62.5%;  // 1rem = 10px; 10px/16px = 62.5%
+
+    @include respond(tab-land) { //width < 1200
+      font-size: 56.25%;  // 1rem = 9px, 9/16 = 56.25%
+      }
+
+    @include respond(phone) { //width < 900
+        font-size: 50%;  // 1rem = 8px, 8/16 = 50%
+    }
+
+    @include respond(tab-port) { //width < 900
+      font-size: 50%;    // 1rem = 8px, 8/16 = 50%
+      }
+
+    @include respond(big-desktop) {
+      font-size: 80%;    // 1rem = 12px, 12/16 = 75%
+      }    
+}
+
+body {
+    /*Delete the jumping at the end of animation button*/
+    box-sizing: border-box;
+    padding: 3rem;
+
+    @include respond(tab-land) { 
+        //remove white espace around content
+        padding: 0;
+      }
+}
+
+/*Style text selection*/
+::selection {
+  background-color: $color-primary;
+  color: $color-white;
+}

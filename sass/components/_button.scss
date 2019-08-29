@@ -1,0 +1,124 @@
+.btn {
+    &,
+    &:link,
+    &:visited {
+       text-transform: uppercase;
+       text-decoration: none;
+       padding: 1.5rem 4rem;
+       display: inline-block;
+       border-radius: 3rem;
+       /*  all mean that all properties can be animated.
+       In this case all animations like :hover etc, will take
+       0.2s to complete, this give animation a smooth and affect 
+       properties in .btn:active */
+       transition: all .2s;
+       /*this is to set .btn::after virtual element relative to
+       .btn*/
+       position: relative;
+       font-size: $default-font-size;
+
+       // Style for the <button> element
+       border: none;
+       cursor: pointer;
+    }
+
+    &:active,
+    &:focus {
+        // outline in this case if for <button> element focus
+        outline: none;
+        transform: translateY(-1px);
+        box-shadow: 0 .5rem 1rem rgba($color-black, .2);
+    }
+
+    /*This make the button up */
+    &:hover {
+        transform: translateY(-0.3rem);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.301);
+
+        /*Styles for ::after virtual element when user over .btn*/
+        &::after {
+            /*scale size from 1 to 1.5*/ 
+            transform: scalex(1.5) scaleY(1.4);
+            /*set opacity opacity from 1 to 0, emulating a vanishing efect*/ 
+            opacity: 0;
+        }
+    }
+
+     /*Put a virtual element behind the .btn element*/
+    &::after {
+        /*All pseudo-elements must have content property*/ 
+        content: "";
+        /*The same as content and it is inline-block because 
+        .btn it is too*/
+        display: inline-block;
+        /*Set same dimentions as his father .btn element*/
+        height: 100%;
+        width: 100%;
+        /*the same as his father*/
+        border-radius:3rem; 
+        /*Positioning*/
+        position: absolute;
+        top: 0;
+        left: 0;
+        /*Setting ::after virtual element behind .btn*/
+        z-index: -1;
+        /*Set color*/
+    
+        /*set speed of properties animation and affect .btn:hover::after selector*/
+        transition:  all .4s;
+    }
+
+    &--white {
+        background-color: $color-white;
+        color: $color-grey-dark;
+
+        &::after {
+            background-color: $color-white;
+        }
+
+        
+    }
+
+    &--green {
+        background-color: $color-primary;
+        color: $color-white;
+        margin-bottom: 2rem;
+        margin-left: 5rem;
+
+        &::after {
+            background-color: $color-primary;
+        }   
+    }
+
+    &--animated {
+        /*animation name, animation duration, animation time and delay(.75s)*/
+        animation: moveInBottom .5s ease-out .75s;
+        /*without this property button is visible from begining, setting this property button it is not seen at the begining*/
+        animation-fill-mode: backwards;
+    }
+ }
+
+ .btn-text {
+     &:link,
+     &:visited {
+        font-size: $default-font-size;
+        color: $color-primary;
+        display: inline-block;
+        padding: .5rem;
+        text-decoration: none;
+        border-bottom: 1px solid $color-primary;
+        transition: all .2s;
+     }
+
+     &:hover {
+        background-color: $color-primary;
+        color: $color-white;
+        box-shadow: 0 1rem 2rem rgba($color-black, .15);
+        transform: translateY(-2px);
+     }
+
+     &:active {
+        box-shadow: 0 .5rem 1rem rgba($color-black, .15);
+        transform: translateY(0);
+     }
+ }
